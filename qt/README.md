@@ -1,0 +1,1 @@
+Contains the qt form code. To build, run qt_build.bat in a Command terminal. Make sure the QT bin folder is on your path (ex. C:\Qt\5.6\msvc2015_64\bin).
