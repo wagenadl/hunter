@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <cameraSettings>
-	<currentWorkingDirectory>C:/cygwin64/home/zpliz/projects/hunter/vs</currentWorkingDirectory>
+	<currentWorkingDirectory>C:/cygwin64/home/Zack/projects/hunter_new/vs</currentWorkingDirectory>
 	<pointGrey location="top" usb="0">
 		<view>true</view>
 		<record method="jpeg">true</record>

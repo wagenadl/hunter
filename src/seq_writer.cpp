@@ -159,8 +159,12 @@ void SEQWriter::writeFrame( QImage *image, int secs, short ms)
 	// Write the image size
     // According to spec, the frame size is written before the image data ONLY for compressed images.
 	// The old code wrote it before both.
+	// Apparently, image size is supposed to (in the Matlab code) include the size of the size field also
+	// so - (JPEG size + sizeof(int32_t)
 #ifdef COMPATIBILITY_MODE
+	image_size += 4;
 	seqFileStream->writeRawData((char*)&image_size, sizeof(int32_t));
+	image_size -= 4;
 #else
 	if (compressed)
 	{
@@ -187,10 +191,7 @@ void SEQWriter::writeFrame( QImage *image, int secs, short ms)
 
 	// There should be no padding after the frame (I think.)
 	// The old version had 8 bytes of padding
-#ifdef COMPATIBILITY_MODE
-	for (int i = 0; i < 8; i++)
-		seqFileStream->writeRawData((char*)&null, sizeof(int8_t));
-#endif
+	// It appears the matlab code can handle 0 or 8 bytes, so I'll do 0.
 
     // Keep track of how many frames were saved
     totalFrames++;
@@ -287,7 +288,7 @@ void SEQWriter::writeHeader( int width, int height, int bpp_num )
 
 	// this was wrong on the old version.
 #ifdef COMPATIBILITY_MODE
-	int32_t bytesPerFrame = (width * height * bpp_num) / 1;
+	int32_t bytesPerFrame = (width * height * bpp_num) / 8;
 #else
 	int32_t bytesPerFrame = (width * height * bpp_num) / 8;
 #endif
