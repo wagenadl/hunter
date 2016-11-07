@@ -10,7 +10,7 @@ vs/GeneratedFiles
 qt/generated
 *.sdf
 *.VC.db
-vs/default_config.xml
+default_config.xml
 
 
 # Created by https://www.gitignore.io/api/visualstudio,c++
