@@ -196,6 +196,9 @@ public:
 
 signals:
 	void updateCamera( CameraController::Cameras, QImage );
+	
+	// Send signal that we have received a new frame and the FPS should be updated.
+	void updateFPSMeter();
 
 	void onStopSavingEvent();
 

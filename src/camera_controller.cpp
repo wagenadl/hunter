@@ -294,7 +294,8 @@ void CameraController::initIntel( void(*depthTransporter)( DepthSense::DepthNode
 				depthNode.setFilter1Parameter3(120);
 				depthNode.setFilter1Parameter4(500);
 
-				depthNode.setFilter9Parameter1(100);
+				// 9.1 has a huge impact on CPU: setting to 100 doubles usage vs 10. 10 vs 1 seems minimal
+				depthNode.setFilter9Parameter1(10);
 				depthNode.setFilter9Parameter2(100);
 				depthNode.setFilter9Parameter3(10);
 				depthNode.setFilter9Parameter4(2);

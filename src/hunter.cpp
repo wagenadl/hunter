@@ -108,6 +108,12 @@ Hunter::Hunter( QWidget *parent )
 		              this, 
 					  SLOT( updateStreamForCamera( CameraController::Cameras, QImage ) ),
                       Qt::QueuedConnection );
+
+	QObject::connect(streamer,
+		SIGNAL(updateFPSMeter()),
+		this,
+		SLOT(updateFPSMeter()),
+		Qt::QueuedConnection);	
 		
 	QObject::connect( streamer,
 		              SIGNAL( onStopSavingEvent() ),
@@ -563,6 +569,29 @@ void Hunter::updatePlayerUI( QImage img )
 		ui.canvasPGT->setPixmap( QPixmap::fromImage( img ).scaled( ui.canvasPGT->size(),
 			                                                          Qt::KeepAspectRatio, 
 							                                          Qt::FastTransformation ) );
+	}
+}
+
+/*
+* @brief Update the FPS indicator that a new frame was received. 
+* @returns void.
+*/
+void Hunter::updateFPSMeter()
+{
+	qDebug() << "got FPS update" << endl;;
+	
+
+	chrono::high_resolution_clock::time_point now = chrono::high_resolution_clock::now();
+	int lastFrameMs = chrono::duration_cast<chrono::milliseconds>(now - previousFrameTime).count() % 1000000000;
+	previousFrameTime = chrono::high_resolution_clock::now();
+
+	if (lastFrameMs > 0) {
+		float lastFrameFPS = 1000.0 / lastFrameMs;
+		fpsEMA = emaWeight * lastFrameFPS + (1.0 - emaWeight) * fpsEMA;
+
+		//QString text = QString("%1").arg(fpsEMA);
+		QString text = QString::number(fpsEMA, 'f', 2);
+		ui.fpsLabel->setText(text);
 	}
 }
 

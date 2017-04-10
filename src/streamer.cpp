@@ -318,6 +318,9 @@ void Streamer::checkFrameBuffer(bool p_pgTop, bool p_pgFront, bool p_depth, bool
 				frameQueues[channel].push(synchronizationQueues[channel].current_frame_queue.front());
 				synchronizationQueues[channel].current_frame_queue.pop();
 			}
+
+			// Send update to the FPS meter
+			emit updateFPSMeter();
 		}
 		else {
 			qDebug() << "Queue full, can't push!" << endl;
@@ -657,6 +660,7 @@ void Streamer::imageProcessor( Channels channel )
         // Display the image - must do this at the end, since memory is freed after the image is displayed
         if ( ( channel != Channels::IR ) && streamAttributes[ channel ].streaming )
         {
+
 			// If the UI thread is still working on displaying the previous frame
 			// when we emit this frame, this frame may get dropped. If so, we get memory leaks.
 			// We fixed this problem by only updating the UI after a certain period of time has 
@@ -767,8 +771,6 @@ void Streamer::depthSenseDepthTransporter( DepthSense::DepthNode::NewSampleRecei
 	qDebug() << "Depth buffer size: " << synchronizationQueues[Channels::Depth].current_frame_queue.size() << endl;
 #endif // DEBUG
 
-	
-	
     theFrame = new CameraFrame( data.depthMap,
 								data.confidenceMap,
                                 data.captureConfiguration.frameFormat,

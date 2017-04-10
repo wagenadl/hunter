@@ -105,6 +105,8 @@ private slots:
 	
     // Other signals
     void updatePlayerUI( QImage img );
+	// Send signal that we have received a new frame and the FPS should be updated.
+	void updateFPSMeter();
     void updateStreamForCamera( CameraController::Cameras cam, QImage image );
 	void timerEvent();
 	void updateRecordButtonOnStopSaving();
@@ -236,6 +238,13 @@ private:
 	Streamer* streamer;
 	CameraController* cc;
 	QDateTime mStartTime; // TODO
+	
+	// EMA weight: larger -> shorter window
+	float emaWeight = .01;
+	// Holds the exponential moving average FPS
+	float fpsEMA = 30.0;
+	// Previous frame timestamp
+	chrono::high_resolution_clock::time_point previousFrameTime;
 
 	bool recording;
 
