@@ -33,8 +33,7 @@ All requirement installers of proper version are hosted on the Dropbox, in the "
 All requirement installers of proper version are hosted on the Dropbox, in the "Common" and "Release" folders.
 - DepthSense SDK version 1.9.0.5, 64 bit, VS 2013
 - FlyCap 2.10.3.169 Viewer Windows 64-bit
-- LibJpegTurbo 1.4.2 for Visual C++ 64-bit (not sure if necessary)
-- QT???
+- In the same folder as Hunter.exe: FlyCapture2.dll, Qt5Core.dll, Qt5Gui.dll, Qt5Widgets.dll, platforms/qwindows.dll
 - Windows 10
 
 ## Testing Procedure
